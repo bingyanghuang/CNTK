@@ -1068,12 +1068,11 @@ BOOST_AUTO_TEST_CASE(LTNoRandomizerCheckNoDuplicateSequence)
         BOOST_CHECK_EQUAL(sequences.m_data.size(), 1);
         for (size_t j = 0; j < sequences.m_data[0].size(); j++)
         {
-            shared_ptr<MockDenseSequenceData> sequence = std::dynamic_pointer_cast<MockDenseSequenceData>(sequences.m_data[0][j]);
             // Worker 0 should have data 0,2,4 ..,10,12 .. 18
             // Worker 1 should have data 1,3,5 ..,11,13 .. 19
             // Sequence should keys follow the same pattern.
-            BOOST_CHECK_EQUAL(*(static_cast<float*>(sequence->m_data)), (float)i + j * 2);
-            BOOST_CHECK_EQUAL(sequence->m_key.m_sequence, i + j * 2);
+            BOOST_CHECK_EQUAL(*((float*)(sequences.m_data[0][j]->GetDataBuffer())), (float)i + j * 2);
+            BOOST_CHECK_EQUAL(sequences.m_data[0][j]->m_key.m_sequence, i + j * 2);
         }
     }
 }
